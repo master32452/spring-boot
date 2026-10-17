@@ -1,0 +1,65 @@
+package com.projecto1.demo.model;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "departamentos")
+public class Area {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, length = 100)
+    @NotBlank(message = "El nombre es obligatorio") @Size(max = 100)
+    private String nombre;
+
+    @Column(nullable = false, length = 50, unique = true)
+    @NotBlank(message = "El código es obligatorio") @Size(max = 50)
+    private String codigo;
+
+    @Column(length = 255)
+    @Size(max = 255)
+    private String descripcion;
+
+    @Column(name = "presupuesto")
+    @PositiveOrZero(message = "El presupuesto no puede ser negativo")
+    private Double presupuesto;
+
+    @Column(nullable = false)
+    @NotNull(message = "activo es obligatorio")
+    private Boolean activo = true;
+
+    @Column(name = "fecha_creacion", updatable = false)
+    private LocalDateTime fechaCreacion;
+
+    @PrePersist
+    public void prePersist() {
+        this.fechaCreacion = LocalDateTime.now();
+    }
+
+    public Area() {}
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+
+    public String getCodigo() { return codigo; }
+    public void setCodigo(String codigo) { this.codigo = codigo; }
+
+    public String getDescripcion() { return descripcion; }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+
+    public Double getPresupuesto() { return presupuesto; }
+    public void setPresupuesto(Double presupuesto) { this.presupuesto = presupuesto; }
+
+    public Boolean getActivo() { return activo; }
+    public void setActivo(Boolean activo) { this.activo = activo; }
+
+    public LocalDateTime getFechaCreacion() { return fechaCreacion; }
+    public void setFechaCreacion(LocalDateTime fechaCreacion) { this.fechaCreacion = fechaCreacion; }
+}
